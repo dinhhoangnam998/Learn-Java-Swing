@@ -12,7 +12,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import com.example.demo.gui.component.form.TabbedPanel;
 import com.example.demo.gui.component.table.TablePanel;
@@ -20,8 +21,13 @@ import com.example.demo.gui.eventlistener.AddPersonSubmitListener;
 import com.example.demo.gui.eventlistener.QueryPersonSubmitListener;
 import com.example.demo.gui.eventobject.AddPersonEvent;
 import com.example.demo.gui.eventobject.QueryPersonEvent;
+import com.example.demo.model.Person;
+import com.example.demo.service.PersonS;
 
+@Controller
 public class MainFrame extends JFrame {
+	@Autowired
+	private PersonS pS;
 
 	private TablePanel table;
 	private TabbedPanel tabbedPanel;
@@ -33,15 +39,6 @@ public class MainFrame extends JFrame {
 		buildMenuBar();
 		buildComponents();
 		display();
-	}
-
-	private void buildComponents() {
-
-		table = new TablePanel();
-		add(table, BorderLayout.CENTER);
-
-		tabbedPanel = new TabbedPanel(new AddPersonHandler(), new QueryPersonHandler());
-		add(tabbedPanel, BorderLayout.WEST);
 	}
 
 	private void buildMenuBar() {
@@ -84,15 +81,38 @@ public class MainFrame extends JFrame {
 		setJMenuBar(menuBar);
 	}
 
+	private void buildComponents() {
+
+		table = new TablePanel();
+		add(table, BorderLayout.CENTER);
+
+		tabbedPanel = new TabbedPanel(new AddPersonHandler(), new QueryPersonHandler());
+		add(tabbedPanel, BorderLayout.WEST);
+	}
+
 	private void display() {
 		this.setSize(1000, 600);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}
 
+	@Controller
 	class AddPersonHandler implements AddPersonSubmitListener {
-		public void formSubmitOccur(AddPersonEvent e) {
 
+		
+		public void addPersonOccur(AddPersonEvent ape) {
+			if(pS == null) {
+				System.out.println("pS == null");
+			} else {
+				if(pS.personR == null) {
+					System.out.println("pS.personR == null");
+				}
+			}
+			Person person = ape.getPerson();
+			if(person == null) {
+				System.out.println("person == null");
+			}
+//			pS.personR.save(person);
 		}
 
 	}

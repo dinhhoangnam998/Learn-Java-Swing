@@ -5,5 +5,5 @@ import java.util.EventListener;
 import com.example.demo.gui.eventobject.AddPersonEvent;
 
 public interface AddPersonSubmitListener extends EventListener {
-	void formSubmitOccur(AddPersonEvent e);
+	void addPersonOccur(AddPersonEvent e);
 }

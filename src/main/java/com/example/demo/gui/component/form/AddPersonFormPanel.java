@@ -81,8 +81,8 @@ public class AddPersonFormPanel extends AbstractTabPanel {
 	private void addEventCatcher() {
 		btn.addActionListener(e -> {
 			Person p = getFormInfo();
-			AddPersonEvent fse = new AddPersonEvent(btn, p);
-			addPersonSubmitHandler.formSubmitOccur(fse);
+			AddPersonEvent ape = new AddPersonEvent(btn, p);
+			addPersonSubmitHandler.addPersonOccur(ape);
 		});
 	}
 
