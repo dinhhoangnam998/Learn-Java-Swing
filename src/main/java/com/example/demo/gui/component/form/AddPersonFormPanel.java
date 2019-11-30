@@ -1,39 +1,22 @@
 package com.example.demo.gui.component.form;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.KeyEvent;
 
-import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JTextField;
-import javax.swing.border.Border;
 
-import com.example.demo.gui.eventlistener.FormSubmitListener;
-import com.example.demo.gui.eventobject.FormSubmitEvent;
+import com.example.demo.gui.eventlistener.AddPersonSubmitListener;
+import com.example.demo.gui.eventobject.AddPersonEvent;
 import com.example.demo.model.Person;
 
-public class AddPersonFormPanel extends JPanel {
+public class AddPersonFormPanel extends AbstractTabPanel {
 
-	private JLabel nameLabel;
-	private JLabel ageLabel;
-	private JTextField nameField;
-	private JTextField ageField;
-
-	private JButton btn;
-	private JButton cancelBtn;
-
-	private FormSubmitListener formSubmitHandler;
+	private AddPersonSubmitListener addPersonSubmitHandler;
 
 	private JLabel lincenseLabel;
 	private JCheckBox lincenseCheckBox;
@@ -45,46 +28,23 @@ public class AddPersonFormPanel extends JPanel {
 	private JLabel phoneComboxBoxLable;
 	private JComboBox<String> jComboBox;
 
+	protected JButton btn;
+	private JButton cancelBtn;
+
 	private GridBagConstraints gc;
 
-	public AddPersonFormPanel(FormSubmitListener formSubmitHandler) {
-		this.formSubmitHandler = formSubmitHandler;
-		init();
-		buildComponent();
-		catchEvent();
-
+	public AddPersonFormPanel(AddPersonSubmitListener addPersonSubmitHandler) {
+		this.addPersonSubmitHandler = addPersonSubmitHandler;
+		super.setBorder();
+		super.initLayout();
+		this.buildComponent();
+		addEventCatcher();
 	}
 
-	private void init() {
-		Dimension dim = getPreferredSize();
-		dim.width = 400;
-		setPreferredSize(dim);
+	@Override
+	protected void buildComponent() {
 
-		Border innerBorder = BorderFactory.createTitledBorder("Add Person");
-		Border outterBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
-		setBorder(BorderFactory.createCompoundBorder(outterBorder, innerBorder));
-
-		setLayout(new GridBagLayout());
-		gc = new GridBagConstraints();
-		gc.anchor = GridBagConstraints.LINE_START;
-		gc.fill = GridBagConstraints.NONE;
-		gc.weightx = 1;
-		gc.weighty = 1;
-		gc.insets = new Insets(0, 20, 0, 0);
-	}
-
-	private void buildComponent() {
-		nameLabel = new JLabel("Name:");
-		nameField = new JTextField("Hoang Nam", 10);
-		nameLabel.setLabelFor(nameField);
-		nameLabel.setDisplayedMnemonic(KeyEvent.VK_N);
-		addRow(nameLabel, nameField);
-
-		ageLabel = new JLabel("Age:");
-		ageField = new JTextField("21", 10);
-		ageLabel.setLabelFor(ageField);
-		ageLabel.setDisplayedMnemonic(KeyEvent.VK_A);
-		addRow(ageLabel, ageField);
+		super.buildComponent();
 
 		lincenseLabel = new JLabel("Accept Lincense");
 		lincenseCheckBox = new JCheckBox();
@@ -118,12 +78,12 @@ public class AddPersonFormPanel extends JPanel {
 		addRow(btn, cancelBtn);
 	}
 
-	private void addRow(JComponent c1, JComponent c2) {
-		gc.gridy++;
-		gc.gridx = 0;
-		add(c1, gc);
-		gc.gridx = 1;
-		add(c2, gc);
+	private void addEventCatcher() {
+		btn.addActionListener(e -> {
+			Person p = getFormInfo();
+			AddPersonEvent fse = new AddPersonEvent(btn, p);
+			addPersonSubmitHandler.formSubmitOccur(fse);
+		});
 	}
 
 	private Person getFormInfo() {
@@ -137,11 +97,4 @@ public class AddPersonFormPanel extends JPanel {
 		return p;
 	}
 
-	private void catchEvent() {
-		btn.addActionListener(e -> {
-			Person p = getFormInfo();
-			FormSubmitEvent fse = new FormSubmitEvent(btn, p);
-			formSubmitHandler.formSubmitOccur(fse);
-		});
-	}
 }

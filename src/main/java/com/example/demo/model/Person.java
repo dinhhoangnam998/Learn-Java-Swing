@@ -25,6 +25,12 @@ public class Person implements Serializable {
 		this.phone2 = phone2;
 	}
 
+	public Person(String name2, int age2) {
+		super();
+		this.name = name;
+		this.age = age;
+	}
+
 	public String getName() {
 		return name;
 	}

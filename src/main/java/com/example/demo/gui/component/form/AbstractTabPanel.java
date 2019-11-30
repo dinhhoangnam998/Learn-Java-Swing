@@ -7,34 +7,21 @@ import java.awt.Insets;
 import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
-public abstract class FormTabPanel extends JPanel {
+public abstract class AbstractTabPanel extends JPanel {
 	protected JLabel nameLabel;
 	protected JLabel ageLabel;
 	protected JTextField nameField;
 	protected JTextField ageField;
 
-	protected JButton btn;
-
 	protected GridBagConstraints gc;
-	
-	protected void buildTemplate() {
-		init();
-		buildComponent();
-	}
 
-	protected void init() {
+	protected void setBorder() {
 		Dimension dim = getPreferredSize();
 		dim.width = 400;
 		setPreferredSize(dim);
@@ -42,7 +29,9 @@ public abstract class FormTabPanel extends JPanel {
 		Border innerBorder = BorderFactory.createTitledBorder("Query Person");
 		Border outterBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
 		setBorder(BorderFactory.createCompoundBorder(outterBorder, innerBorder));
+	}
 
+	protected void initLayout() {
 		setLayout(new GridBagLayout());
 		gc = new GridBagConstraints();
 		gc.anchor = GridBagConstraints.LINE_START;

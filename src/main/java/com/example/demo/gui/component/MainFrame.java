@@ -12,13 +12,19 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
-import com.example.demo.gui.component.form.FormPanel;
+import org.springframework.stereotype.Component;
+
+import com.example.demo.gui.component.form.TabbedPanel;
 import com.example.demo.gui.component.table.TablePanel;
+import com.example.demo.gui.eventlistener.AddPersonSubmitListener;
+import com.example.demo.gui.eventlistener.QueryPersonSubmitListener;
+import com.example.demo.gui.eventobject.AddPersonEvent;
+import com.example.demo.gui.eventobject.QueryPersonEvent;
 
 public class MainFrame extends JFrame {
 
 	private TablePanel table;
-	private FormPanel formPanel;
+	private TabbedPanel tabbedPanel;
 
 	private JFileChooser fileChooser;
 
@@ -34,7 +40,8 @@ public class MainFrame extends JFrame {
 		table = new TablePanel();
 		add(table, BorderLayout.CENTER);
 
-
+		tabbedPanel = new TabbedPanel(new AddPersonHandler(), new QueryPersonHandler());
+		add(tabbedPanel, BorderLayout.WEST);
 	}
 
 	private void buildMenuBar() {
@@ -82,4 +89,19 @@ public class MainFrame extends JFrame {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}
+
+	class AddPersonHandler implements AddPersonSubmitListener {
+		public void formSubmitOccur(AddPersonEvent e) {
+
+		}
+
+	}
+
+	class QueryPersonHandler implements QueryPersonSubmitListener {
+		public void queryPersonOccur(QueryPersonEvent e) {
+
+		}
+
+	}
+
 }
